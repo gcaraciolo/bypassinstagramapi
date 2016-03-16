@@ -1,0 +1,16 @@
+{
+  "name": "bypassinstagramapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {},
+  "author": "Guilherme Caraciolo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4",
+    "http-status": "^0.2.0",
+    "instagram-node": "^0.5.8",
+    "request": "^2.69.0"
+  }
+}
