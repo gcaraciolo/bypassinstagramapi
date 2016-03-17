@@ -23,7 +23,7 @@ const Token = (function () {
     
     return {
         getToken: () => {
-            return token            
+            return process.env.INSTAGRAM_TOKEN || token            
         }, 
         setToken: (aToken) => {
             token = aToken
