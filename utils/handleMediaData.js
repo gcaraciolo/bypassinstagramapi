@@ -43,7 +43,7 @@ module.exports.handle = (filterBy, cb) => {
 	}
 
 	let mediaCallback = (err, medias, pagination, remaining, limit) => {
-		if (err) return next(err)
+		if (err) return cb(err, null)
 
 		switch (filterBy) {
 			case 'photos':
@@ -60,7 +60,7 @@ module.exports.handle = (filterBy, cb) => {
 		if(pagination.next) {
 			pagination.next(mediaCallback); 
 		} else {
-			cb(allMedias)
+			cb(null, allMedias)
 		}
 	}
 

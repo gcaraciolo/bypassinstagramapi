@@ -21,19 +21,22 @@ module.exports.findUserId = (req, res, next) => {
 }
 
 module.exports.getTimeline = (req, res, next) => { 	
-	api.user_media_recent(req.bypassInstagramAPI.userId, {}, HandleMediaData.handle('', (medias) => {
+	api.user_media_recent(req.bypassInstagramAPI.userId, {}, HandleMediaData.handle('', (err, medias) => {
+		if(err) return next(err)
 		res.status(httpStatus.OK).json(utils.responseArray(medias))	
 	}))	
 }
 
 module.exports.getPhotos = (req, res, next) => { 
-	api.user_media_recent(req.bypassInstagramAPI.userId, {}, HandleMediaData.handle('photos', (medias) => {
+	api.user_media_recent(req.bypassInstagramAPI.userId, {}, HandleMediaData.handle('photos', (err, medias) => {
+		if(err) return next(err)
 		res.status(httpStatus.OK).json(utils.responseArray(medias))	
 	}))	
 }
 
 module.exports.getVideos = (req, res, next) => { 
-	api.user_media_recent(req.bypassInstagramAPI.userId, {}, HandleMediaData.handle('videos', (medias) => {
+	api.user_media_recent(req.bypassInstagramAPI.userId, {}, HandleMediaData.handle('videos', (err, medias) => {
+		if(err) return next(err)
 		res.status(httpStatus.OK).json(utils.responseArray(medias))	
 	}))	
 }

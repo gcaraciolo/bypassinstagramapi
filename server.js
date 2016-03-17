@@ -26,5 +26,5 @@ function registerAppName(req, res, next) {
 }
 
 function handleError(err, req, res, next) {
-	return UTILS.handleError(err,res)	
+	return utils.handleError(err,res)	
 }
