@@ -8,7 +8,7 @@ const httpStatus    = require('http-status'),
 	  utils 		= require('../utils/myUtils')
 
 
-function response(res, filterBy) {
+function response(filterBy, cb) {
 	let allMedias = []
 
 	function createMedia(media) {
@@ -53,7 +53,7 @@ function response(res, filterBy) {
 		if(pagination.next) {
 			pagination.next(mediaCallback); 
 		} else {
-			res.status(httpStatus.OK).json(utils.responseArray(allMedias))	
+			cb(allMedias)
 		}
 	}
 
@@ -76,15 +76,21 @@ module.exports.findUserId = (req, res, next) => {
 }
 
 module.exports.getTimeline = (req, res, next) => { 	
-	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response(res))	
+	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response('', (medias) => {
+		res.status(httpStatus.OK).json(utils.responseArray(medias))	
+	})	
 }
 
 module.exports.getPhotos = (req, res, next) => { 
-	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response(res, 'photos'))
+	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response('photos', (medias) => {
+		res.status(httpStatus.OK).json(utils.responseArray(medias))	
+	})	
 }
 
 module.exports.getVideos = (req, res, next) => { 
-	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response(res, 'videos'))
+	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response('videos', (medias) => {
+		res.status(httpStatus.OK).json(utils.responseArray(medias))	
+	})	
 }
 
 
