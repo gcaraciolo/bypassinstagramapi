@@ -12,10 +12,18 @@ module.exports.findUserId = (req, res, next) => {
 	api.user_search(req.params.profileName, function (err, users, remaining, limit) {
 		if (err) return next(err) 
 
+		let wantedUser
 		if (users.length == 0) {
 			return res.status(httpStatus.BAD_REQUEST).json(serverError.userNotFound)	
-		} 
-		req.bypassInstagramAPI.userId = users[0].id
+		} else if(users.length > 1) {
+			users.forEach( function(user, index) {
+				if(user.username == req.params.profileName) {
+					wantedUser = user
+					return
+				}
+			});
+		}		
+		req.bypassInstagramAPI.userId = wantedUser ? wantedUser.id : users[0].id
 		next()
 	})
 }
