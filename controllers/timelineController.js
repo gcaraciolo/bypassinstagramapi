@@ -28,27 +28,42 @@ function response(filterBy, cb) {
 		return media.type == 'video'
 	}
 
+	function addOnlyPhotos(medias) {
+		medias.forEach( (media, index) => {
+			if(isPhoto(media)) {
+				allMedias.push(createMedia(media))
+			}
+		})			
+	}
+
+	function addOnlyVideos(medias) {
+		medias.forEach( (media, index) => {
+			if(isVideo(media)) {
+				allMedias.push(createMedia(media))
+			}
+		})			
+	}
+
+	function addPhotoAndVideo(medias) {
+		medias.forEach( (media, index) => {
+			allMedias.push(createMedia(media))			
+		})
+	}
+
 	let mediaCallback = (err, medias, pagination, remaining, limit) => {
 		if (err) return next(err)
 
-		medias.forEach( function(media, index) {
-			switch (filterBy) {
-				case 'photos':
-					if(isPhoto(media)) {
-						allMedias.push(createMedia(media))
-					}
-					break;
-				case 'videos':
-					if(isVideo(media)) {
-						allMedias.push(createMedia(media))
-					}
-					break;	
-				default:
-					allMedias.push(createMedia(media))
-					break;
-			}
-			
-		})
+		switch (filterBy) {
+			case 'photos':
+				addOnlyPhotos(medias)
+				break;
+			case 'videos':
+				addOnlyVideos(medias)
+				break;	
+			default:
+				addPhotoAndVideo(medias)
+				break;
+		}
 
 		if(pagination.next) {
 			pagination.next(mediaCallback); 
@@ -78,19 +93,19 @@ module.exports.findUserId = (req, res, next) => {
 module.exports.getTimeline = (req, res, next) => { 	
 	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response('', (medias) => {
 		res.status(httpStatus.OK).json(utils.responseArray(medias))	
-	})	
+	}))	
 }
 
 module.exports.getPhotos = (req, res, next) => { 
 	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response('photos', (medias) => {
 		res.status(httpStatus.OK).json(utils.responseArray(medias))	
-	})	
+	}))	
 }
 
 module.exports.getVideos = (req, res, next) => { 
 	api.user_media_recent(req.bypassInstagramAPI.userId, {}, response('videos', (medias) => {
 		res.status(httpStatus.OK).json(utils.responseArray(medias))	
-	})	
+	}))	
 }
 
 
