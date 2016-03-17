@@ -14,9 +14,7 @@ module.exports.findUserId = (req, res, next) => {
 
 		if (users.length == 0) {
 			return res.status(httpStatus.BAD_REQUEST).json(serverError.userNotFound)	
-		} else if(users.length > 1) {
-			return res.status(httpStatus.BAD_REQUEST).json(serverError.tooManyUsers)
-		}
+		} 
 		req.bypassInstagramAPI.userId = users[0].id
 		next()
 	})
