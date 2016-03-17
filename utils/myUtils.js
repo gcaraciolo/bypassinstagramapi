@@ -19,7 +19,8 @@ module.exports.handleError = (err, res) => {
 
 module.exports.checkEnvironmentVariables = () => {
 	let status = 	constants.INSTAGRAM_API_CLIENT_ID &&
-					constants.INSTAGRAM_API_CLIENT_SECRET
+					constants.INSTAGRAM_API_CLIENT_SECRET ||
+			process.env.INSTAGRAM_TOKEN
 	if(!status) throw Error('As variaveis de ambiente nao foram inicializadas!')
 }
 
