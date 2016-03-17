@@ -13,12 +13,17 @@ const router = express.Router()
 
 let auth = null
 
+router.use('/', function registerAppName(req, res, next) { 
+	req.bypassInstagramAPI = {}
+	next()
+})
+
 function test(req, res, next) {
 	auth = new AuthInstagram(req, res, next)  	
 	auth.verifyToken()
 }
 
-router.use('/timeline', test, 	require('./timelineRouter'))
+router.use('/timeline', test, require('./timelineRouter'))
 router.route('/auth/instagram/callback')
 	  .get((req, res, next) => {
 	  		auth.handleAuth(req, res)

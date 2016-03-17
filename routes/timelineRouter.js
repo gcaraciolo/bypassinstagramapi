@@ -6,16 +6,14 @@ const express 				= require('express'),
 const router = express.Router()
 
 router.route('/:profileName')
-      .get(timelineController.getTimeline)
+      .get(timelineController.findUserId, timelineController.getTimeline)
 
 router.route('/:profileName/fotos')
-      .get(timelineController.getPhotos)
+      .get(timelineController.findUserId, timelineController.getPhotos)
       
 router.route('/:profileName/videos')
-	  .get(timelineController.getVideos)
+	  .get(timelineController.findUserId, timelineController.getVideos)
 
-router.route('/')
-	  .get(timelineController.goToProfileName)
-	   		
+	
 
 module.exports = router
