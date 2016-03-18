@@ -16,12 +16,13 @@ module.exports.findUserId = (req, res, next) => {
 		if (users.length == 0) {
 			return res.status(httpStatus.BAD_REQUEST).json(serverError.userNotFound)	
 		} else if(users.length > 1) {
-			users.forEach( function(user, index) {
+			for (let index in users) {
+				let user = users[index]
 				if(user.username == req.params.profileName) {
 					wantedUser = user
-					return
+					break
 				}
-			});
+			}
 		}		
 		req.bypassInstagramAPI.userId = wantedUser ? wantedUser.id : users[0].id
 		next()
